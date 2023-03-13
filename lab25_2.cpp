@@ -1,111 +1,52 @@
 #include<iostream>
+#include<list>
+#include<algorithm>
+
 using namespace std;
 
-
-class Node{
-    public:
-    	int data;
-    	Node *next;
-    	~Node();
-};
-
-class List{
-	public:
-		Node *root;
-		int size;
-		void show();
-		void append(int);
-		void insert(int,int);
-		void remove(int);
-};
-
-Node::~Node(){
-    cout << data << " was deleted.\n";
+void printList(list<string> s){
+	list<string>::iterator i;
+	for( i = s.begin(); i != s.end(); i++){
+		cout << *i << " ";
+	}		
+	cout << "\n";	
 }
 
-void List::insert(int d,int idx){	
-	Node *n = new Node;
-	n->data = d;
+int main(){
 	
-	if(idx == 0){
-		n->next = root;
-		root = n;
-		return;
-	}
-	Node *current = root;
-	for(int i = 0; i < idx-1;i++){
-		current = current->next;
-	}
-	n->next = current->next;
-	current->next = n;		
-}
+	list<string> line_up;
+	list<string>::iterator loc;
+	
+	line_up.push_back("Alice");
+	line_up.push_back("Bob");
+	
+	loc = find(line_up.begin(),line_up.end(),"Bob");
+	line_up.insert(loc,"Oscar");
+	
+	//Write your code here
+	line_up.push_back("Luffy");
+	line_up.push_back("Sanji");
+	line_up.push_back("Nami");
+	
+	line_up.erase(line_up.begin());
+	line_up.erase(line_up.begin());
 
-void List::show(){
-	Node *current = root;
-	cout << current->data << " ";	
-	while(current->next){
-		current = current->next;
-		cout << current->data << " ";
-	}	
-}
+	loc = find(line_up.begin(),line_up.end(),"Luffy");
+	++loc;
+	line_up.insert(loc, "Narutu");
 
-void List::append(int d){	
-	Node *n = new Node;
-	n->data = d; n->next = NULL;
-	if(root == NULL) root = n;
-	else{
-		Node *current = root;
-		while(current->next){
-			current = current->next;
-		}
-		current->next = n;
-	}
-	size++;
-}
+	line_up.insert(line_up.begin(), "Prayath");
+	loc = find(line_up.begin(),line_up.end(),"Prayath");
+	++loc;
+	line_up.insert(loc, "Tony");
+	loc = find(line_up.begin(),line_up.end(),"Bob");
+	line_up.erase(loc);
+	
+	line_up.erase(line_up.begin());
+	line_up.erase(line_up.begin());
+	line_up.erase(line_up.begin());
 
-//Write List::remove() here
-void List::remove(int index)
-{	
-	size--;
-	Node *current = root;
-	if (index == 0)
-	{
-		root = root->next;
-		delete current;
-	}
-	else
-	{
-		for (int i = 0; i < index - 1; i++) current = current->next;
-		Node *hereN = current->next;
-		current->next = hereN->next;
-		delete hereN;
-	}
-}
-
-int main()
-{
-	List myList = {0,0};
-	myList.append(5);
-	myList.append(7);
-	myList.append(11);
-	myList.append(4);
-	myList.append(12);
-	myList.append(45);
-
-	myList.insert(29,2);
-	myList.insert(33,3);
-	myList.insert(77,5);
-	myList.insert(69,0);
-	myList.show();
-	cout << "\n"; 
-
-	myList.remove(2);
-	myList.show();
-	cout << "\n"; 
-	myList.remove(4);
-	myList.show();
-	cout << "\n";
-	myList.remove(0);
-	myList.show();
-	cout << "\n";
+	printList(line_up);
+		
+	return 0;
 }
